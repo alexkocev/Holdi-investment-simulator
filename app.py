@@ -297,26 +297,6 @@ def page_simulator():
 
 
 
-
-
-    # Custom CSS to inject for styling the buttons
-    button_style = """
-    <style>
-    div.stButton > button:focus {
-        background-color: #E694FF;
-        color: white;
-    }
-    div.stButton > button:disabled {
-        background-color: #E694FF;
-        color: white;
-        pointer-events: none;
-    }
-    </style>
-    """
-
-    # Inject custom CSS with markdown
-    st.markdown(button_style, unsafe_allow_html=True)
-
     # Align buttons horizontally for investment profile
     cols = st.columns(3)
     options = ["Profil Prudent", "Profil Équilibré", "Profil Dynamique"]
@@ -332,6 +312,7 @@ def page_simulator():
             st.button(option, on_click=update_selection, args=(option,),
                     key=f'button{i+1}',
                     disabled=st.session_state.investor_profile == option)
+
 
 
     ##############################
@@ -375,8 +356,18 @@ def page_simulator():
     #################################
     asset_return = generate_asset_return(assets_data)
     weighted_annual_return = calculate_weighted_annual_return(asset_return, custom_asset_allocation)
-    st.metric(label="Rendement annuel estimé", value=f"{weighted_annual_return:.2%}")
 
+    # Using columns to align label and value horizontally
+    col1, col2, col3 = st.columns([1,2,1])
+    with col2:
+        st.write('')
+        # Using markdown to add styling for center alignment and bold, larger text within the column
+        st.markdown(f"""
+        <div style='text-align: center;'>
+            <span style='font-size: 24px;'>Rendement annuel estimé</span> 
+            <span style='font-size: 28px; font-weight: bold;'>{weighted_annual_return:.2%}</span>
+        </div>
+        """, unsafe_allow_html=True)
 
 
     st.title("")
