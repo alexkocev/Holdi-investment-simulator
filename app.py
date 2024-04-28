@@ -43,14 +43,14 @@ def generate_asset_allocation(df, age, investor_profile='Profil Équilibré'):
         age_col = '65 ans et +'
 
     df['Profil Equilibré'] = df[age_col]
-
+    
     if investor_profile == 'Profil Prudent':
-        df['Profil Prudent'] = df['Profil Equilibré'] + df['Profil Prudent']
-        asset_allocation = dict(zip(df['FONDS PROPOSÉS A TERME'], df['Profil Equilibré'].round(2)))
+        df['Profil Prudent_'] = df['Profil Equilibré'] + df['Profil Prudent']
+        asset_allocation = dict(zip(df['FONDS PROPOSÉS A TERME'], df['Profil Prudent_'].round(2)))
 
-    if investor_profile == 'Profil Dynamique':
-        df['Profil Dynamique'] = df['Profil Equilibré'] + df['Profil Dynamique']
-        asset_allocation = dict(zip(df['FONDS PROPOSÉS A TERME'], df['Profil Dynamique'].round(2)))
+    elif investor_profile == 'Profil Dynamique':
+        df['Profil Dynamique_'] = df['Profil Equilibré'] + df['Profil Dynamique']
+        asset_allocation = dict(zip(df['FONDS PROPOSÉS A TERME'], df['Profil Dynamique_'].round(2)))
 
     else :
         asset_allocation = dict(zip(df['FONDS PROPOSÉS A TERME'], df['Profil Equilibré'].round(2)))
@@ -333,8 +333,6 @@ def page_simulator():
                     key=f'button{i+1}',
                     disabled=st.session_state.investor_profile == option)
 
-            
-
 
     ##############################
     ###### PORTFOLIO #############
@@ -342,8 +340,7 @@ def page_simulator():
     with st.form("portfolio_form"):
         st.subheader("Répartition par actif")
         
-        generated_asset_allocation = generate_asset_allocation(assets_data, 30, st.session_state.investor_profile)         
-
+        generated_asset_allocation = generate_asset_allocation(assets_data, st.session_state.age, st.session_state.investor_profile)         
         # Create columns for asset inputs
         col1, col2 = st.columns(2)
         columns = [col1, col2]

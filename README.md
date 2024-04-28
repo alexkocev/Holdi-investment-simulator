@@ -16,3 +16,4 @@ To run this application locally, follow these steps:
 3. Install the required libraries with:
    ```bash
    pip install streamlit numpy plotly
+   ```
