@@ -9,7 +9,7 @@ def get_asset_data():
     """
     Connect to DataBase with assets, return and allocation
     """
-    conn = sqlite3.connect('investment_data.db')
+    conn = sqlite3.connect('data/investment_data.db')
     df = pd.read_sql_query("SELECT * FROM assets_return_allocation", conn)
     conn.close()
     return df
